@@ -1,5 +1,14 @@
-<header>
+<header class="header">
     <h1>{{ title() }}</h1>
+
+    @if (user()) {
+        <div class="user-box">
+            <span class="username"> {{ user()?.firstName}} {{user()?.lastName }}</span>
+            <button (click)="logout()">خروج</button>
+        </div>
+    } @else {
+        <a class="login-link" routerLink="/login">ورود</a>
+    }
 </header>
 
 <main>

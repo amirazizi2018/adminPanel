@@ -1,15 +1,17 @@
-<form [formGroup]="form" [@submit]="submit" class="login-form">
-    <h2>ورود ادمین</h2>
+<div class="login-container">
+    <h2>ورود به حساب کاربری</h2>
 
-    <label for="username">نام کاربری</label>
-    <input id="username" type="text" [formControl]="form.controls.username"/>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <label for="username">نام کاربری</label>
+        <input id="username" type="text" [formControl]="form.controls.email" />
 
-    <label for="password">رمز عبور</label>
-    <input id="password" type="password" [formControl]="form.controls.password"/>
+        <label for="password">رمز عبور</label>
+        <input id="password" type="password" [formControl]="form.controls.password" />
 
-    <button type="submit" [disabled]="form.invalid">ورود</button>
+        @if (error()) {
+            <div class="error">{{ error() }}</div>
+        }
 
-    @if (error()) {
-        <div class="error">{{ error() }}</div>
-    }
-</form>
+        <button type="submit" [disabled]="form.invalid">ورود</button>
+    </form>
+</div>

@@ -1,44 +1,63 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { LoginResponse, UserInfo } from '../models/user-info.moel'
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    private readonly TOKEN_KEY = 'auth_token';
-    private readonly ROLE_KEY = 'user_role';
+    private user = signal<UserInfo | null>(null);
 
     private http = inject(HttpClient);
     private router = inject(Router);
 
-    login(credentials: { username: string; password: string }) {
-        return this.http.post<{ token: string; role: string }>(
+    constructor() {
+        this.restoreUserFromStorage();
+    }
+
+
+    login(credentials: { email: string; password: string }) {
+        return this.http.post<LoginResponse>(
             'http://localhost:5258/api/auth/login',
-            credentials
+            {
+                ...credentials,
+                role: "Admin"
+            }
         );
     }
 
-    saveAuth(token: string, role: string) {
-        localStorage.setItem(this.TOKEN_KEY, token);
-        localStorage.setItem(this.ROLE_KEY, role);
+    setUser(user: UserInfo) {
+        this.user.set(user);
+        localStorage.setItem('user', JSON.stringify(user));
     }
 
-    getToken(): string | null {
-        return localStorage.getItem(this.TOKEN_KEY);
+
+    getUser(): UserInfo | null {
+        return this.user();
     }
 
-    getUserRole(): string | null {
-        return localStorage.getItem(this.ROLE_KEY);
+
+    isLoggedIn(): boolean {
+        return this.user() !== null;
     }
 
     logout() {
-        localStorage.removeItem(this.TOKEN_KEY);
-        localStorage.removeItem(this.ROLE_KEY);
-        this.router.navigate(['/admin/login']);
+        this.user.set(null);
+        localStorage.removeItem('user');
+        this.router.navigate(['/login']);
     }
 
-    isLoggedIn(): boolean {
-        return !!this.getToken();
+    restoreUserFromStorage() {
+        const raw = localStorage.getItem('user');
+        if (raw) {
+            try {
+                const parsed = JSON.parse(raw) as UserInfo;
+                this.user.set(parsed);
+            } catch {
+                localStorage.removeItem('user');
+            }
+        }
     }
+
 }

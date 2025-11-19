@@ -1,6 +1,45 @@
-header {
-    background: #1976d2;
-    color: white;
-    padding: 12px;
-    text-align: center;
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: #0b74da;
+    color: #fff;
+
+    h1 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .user-box {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+
+        .username {
+            font-weight: 600;
+        }
+
+        button {
+            background: #ff3b30;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.3s;
+
+            &:hover {
+                background: #d92b24;
+            }
+        }
+    }
+
+    .login-link {
+        color: #fff;
+        text-decoration: underline;
+        font-weight: 600;
+        cursor: pointer;
+    }
 }

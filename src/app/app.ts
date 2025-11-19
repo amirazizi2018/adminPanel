@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from './core/services/auth'
 
 
 @Component({
@@ -10,5 +11,16 @@ import { ReactiveFormsModule } from '@angular/forms';
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('adminPanel');
+  private auth = inject(AuthService);
+
+  protected readonly title = signal('سامانه مدیریت جلسات');
+
+  user(){
+    return this.auth.getUser();
+  }
+
+  logout(){
+    this.auth.logout();
+  }
+
 }

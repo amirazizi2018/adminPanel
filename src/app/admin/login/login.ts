@@ -17,24 +17,27 @@ export class Login {
     private router = inject(Router);
 
     form = this.fb.group({
-        username: this.fb.control('', { nonNullable: true, validators: [Validators.required] }),
+        email: this.fb.control('', { nonNullable: true, validators: [Validators.required] }),
         password: this.fb.control('', { nonNullable: true, validators: [Validators.required] })
     });
 
     error = signal<string | null>(null);
 
     submit() {
+
         if (this.form.invalid) return;
 
-        const credentials = this.form.getRawValue(); // حالا username و password هر دو string هستن
+        const credentials = this.form.getRawValue();
+
 
         this.auth.login(credentials).subscribe({
             next: (res) => {
-                this.auth.saveAuth(res.token, res.role);
+                this.auth.setUser(res.data.userInfo);
                 this.router.navigate(['/admin/dashboard']);
             },
-            error: () => {
-                this.error.set('نام کاربری یا رمز عبور اشتباه است');
+            error: (err) => {
+                this.error.set(err?.error?.message || (Array.isArray(err?.error?.errors) ? err.error.errors[0] : 'خطا در ورود به حساب'))
+
             }
         });
     }
