@@ -1,8 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Meeting, MeetingService } from '../../core/services/meeting'
+import { MeetingService } from '../../core/services/meeting'
 import { RouterModule  } from '@angular/router'
 import moment from 'moment-jalaali';
+import { MeetingModel } from '../../core/models/meeting'
 
 
 @Component({
@@ -15,7 +16,7 @@ import moment from 'moment-jalaali';
 export class Dashboard {
     private meetingService = inject(MeetingService);
 
-    meetings = signal<Meeting[]>([]);
+    meetings = signal<MeetingModel[]>([]);
     loading = signal(true);
 
     constructor() {

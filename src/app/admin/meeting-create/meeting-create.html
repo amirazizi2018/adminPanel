@@ -1,1 +1,40 @@
-<p>meeting-create works!</p>
+<div class="form-box">
+    <h2>ایجاد جلسه جدید</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+        <label>عنوان جلسه</label>
+        <input formControlName="title" type="text" placeholder="مثلاً جلسه هیئت مدیره">
+
+        <label>توضیحات</label>
+        <textarea formControlName="description" rows="3"></textarea>
+
+        <div class="res-box">
+            <div class="res-header">
+                <h3>مصوبات</h3>
+                <button type="button" class="add-btn" (click)="addResolution()">+ افزودن مصوبه</button>
+            </div>
+
+            @for (res of resolutions.controls; let i = $index; track i) {
+                <div class="res-item" [formGroup]="res as FormGroup">
+                    <input formControlName="content" placeholder="متن مصوبه">
+
+                    <input formControlName="deadline" type="datetime-local">
+
+                    <select formControlName="userId">
+                        <option value="">انتخاب مسئول</option>
+                        @for (u of users(); track u.id) {
+                            <option [value]="u.id">{{ u.firstName }} {{ u.lastName }}</option>
+                        }
+                    </select>
+
+                    <button class="remove-btn" type="button" (click)="removeResolution(i)">حذف</button>
+                </div>
+            }
+        </div>
+
+        <button class="primary-submit" type="submit" [disabled]="form.invalid">
+            ثبت جلسه
+        </button>
+    </form>
+</div>
