@@ -1,15 +1,30 @@
-<h2>لیست جلسات</h2>
+<div class="top-bar">
+    <h2>لیست جلسات</h2>
+
+    <button class="add-btn" [routerLink]="['/admin/meeting-create']">
+        افزودن جلسه جدید
+    </button>
+</div>
 
 @if (loading()) {
     <p>در حال بارگذاری...</p>
 } @else {
-    @for (meeting of meetings(); track meeting.id) {
-        <div class="meeting-card">
-            <h3>{{ meeting.title }}</h3>
-            <p>{{ meeting.date }}</p>
-            <p>{{ meeting.description }}</p>
-            <button [routerLink]="['/admin/meeting-detail', meeting.id]">جزئیات</button>
-            <button [routerLink]="['/admin/resolution-assign', meeting.id]">تخصیص مصوبات</button>
+
+    @if (meetings().length === 0) {
+        <div class="empty-box">
+            هیچ جلسه‌ای ثبت نشده است.
         </div>
+    } @else {
+        @for (meeting of meetings(); track meeting.id) {
+            <div class="meeting-card">
+                <h3>{{ meeting.title }}</h3>
+                <p>تاریخ: {{ formatDate(meeting.meetingDate) }}</p>
+                <p>{{ meeting.description }}</p>
+
+                <div class="buttons">
+                    <button [routerLink]="['/admin/meeting-detail', meeting.id]">جزئیات</button>
+                </div>
+            </div>
+        }
     }
 }

@@ -2,13 +2,15 @@ import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Meeting, MeetingService } from '../../core/services/meeting'
 import { RouterModule  } from '@angular/router'
+import moment from 'moment-jalaali';
 
 
 @Component({
     selector: 'app-dashboard',
     standalone: true,
     imports: [ CommonModule, RouterModule  ],
-    templateUrl: './dashboard.html'
+    templateUrl: './dashboard.html',
+    styleUrl: './dashboard.scss'
 })
 export class Dashboard {
     private meetingService = inject(MeetingService);
@@ -26,5 +28,10 @@ export class Dashboard {
                 this.loading.set(false);
             }
         });
+    }
+
+
+    formatDate(date: string) {
+        return moment(date).format('jYYYY/jMM/jDD - HH:mm');
     }
 }

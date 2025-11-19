@@ -1,6 +1,5 @@
 
 .login-page {
-    min-height: 100vh;
     background: #f3f6fa;
     display: flex;
     align-items: center;
@@ -22,7 +21,7 @@
     animation: fadeIn 0.45s ease-out forwards;
 }
 
-/* عنوان */
+
 .login-title {
     margin-bottom: 24px;
     font-size: 20px;
@@ -31,7 +30,7 @@
     text-align: center;
 }
 
-/* نمایش خطا */
+
 .error {
     background: #ffcdd2;
     color: #b71c1c;
@@ -42,7 +41,7 @@
     font-size: 14px;
 }
 
-/* انیمیشن ورود */
+
 @keyframes fadeIn {
     from {
         opacity: 0;
