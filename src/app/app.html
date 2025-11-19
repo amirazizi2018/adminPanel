@@ -6,8 +6,6 @@
             <span class="username"> {{ user()?.firstName}} {{user()?.lastName }}</span>
             <button (click)="logout()">خروج</button>
         </div>
-    } @else {
-        <a class="login-link" routerLink="/login">ورود</a>
     }
 </header>
 
