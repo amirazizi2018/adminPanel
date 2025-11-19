@@ -1,0 +1,15 @@
+<h2>لیست جلسات</h2>
+
+@if (loading()) {
+    <p>در حال بارگذاری...</p>
+} @else {
+    @for (meeting of meetings(); track meeting.id) {
+        <div class="meeting-card">
+            <h3>{{ meeting.title }}</h3>
+            <p>{{ meeting.date }}</p>
+            <p>{{ meeting.description }}</p>
+            <button [routerLink]="['/admin/meeting-detail', meeting.id]">جزئیات</button>
+            <button [routerLink]="['/admin/resolution-assign', meeting.id]">تخصیص مصوبات</button>
+        </div>
+    }
+}
