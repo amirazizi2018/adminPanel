@@ -18,7 +18,7 @@
         @for (meeting of meetings(); track meeting.id) {
             <div class="meeting-card">
                 <h3>{{ meeting.title }}</h3>
-                <p>تاریخ: {{ formatDate(meeting.meetingDate) }}</p>
+                <p>تاریخ: {{ meeting.meetingDate | jalaliDate:true }}</p>
                 <p>{{ meeting.description }}</p>
 
                 <div class="buttons">

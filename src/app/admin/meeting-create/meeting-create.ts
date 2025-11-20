@@ -5,12 +5,13 @@ import { UserService, User } from '../../core/services/user';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CreateMeetingModel } from '../../core/models/create-meeting-model'
-import moment from "moment-jalaali";
+import { JalaliDatePipe } from "../../shared/pipes/jalali-date.pipe";
+
 
 @Component({
     selector: 'app-meeting-create',
     standalone: true,
-    imports: [ReactiveFormsModule, CommonModule],
+    imports: [ReactiveFormsModule, CommonModule, JalaliDatePipe],
     templateUrl: './meeting-create.html',
     styleUrl: './meeting-create.scss'
 })
@@ -94,9 +95,6 @@ export class MeetingCreate {
         return u ? u.fullName  : '';
     }
 
-    formatDate(date: string) {
-        return moment(date).format('jYYYY/jMM/jDD');
-    }
 
     validateDeadlines(control: FormGroup) {
         const meetingDate = control.get('meetingDate')?.value;

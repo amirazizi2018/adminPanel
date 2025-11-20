@@ -1,38 +1,33 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MeetingService } from '../../core/services/meeting'
-import { RouterModule  } from '@angular/router'
-import moment from 'moment-jalaali';
+import { RouterModule } from '@angular/router'
 import { MeetingModel } from '../../core/models/meeting'
+import { JalaliDatePipe } from "../../shared/pipes/jalali-date.pipe";
 
 
 @Component({
-    selector: 'app-dashboard',
-    standalone: true,
-    imports: [ CommonModule, RouterModule  ],
-    templateUrl: './dashboard.html',
-    styleUrl: './dashboard.scss'
+	selector: 'app-dashboard',
+	standalone: true,
+	imports: [CommonModule, RouterModule, JalaliDatePipe],
+	templateUrl: './dashboard.html',
+	styleUrl: './dashboard.scss'
 })
 export class Dashboard {
-    private meetingService = inject(MeetingService);
+	private meetingService = inject(MeetingService);
 
-    meetings = signal<MeetingModel[]>([]);
-    loading = signal(true);
+	meetings = signal<MeetingModel[]>([]);
+	loading = signal(true);
 
-    constructor() {
-        this.meetingService.getMeetings().subscribe({
-            next: (data) => {
-                this.meetings.set(data);
-                this.loading.set(false);
-            },
-            error: () => {
-                this.loading.set(false);
-            }
-        });
-    }
-
-
-    formatDate(date: string) {
-        return moment(date).format('jYYYY/jMM/jDD - HH:mm');
-    }
+	constructor() {
+		this.meetingService.getMeetings().subscribe({
+			next: (data) => {
+				this.meetings.set(data);
+				this.loading.set(false);
+			},
+			error: () => {
+				this.loading.set(false);
+			}
+		});
+	}
 }

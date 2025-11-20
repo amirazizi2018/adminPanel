@@ -20,7 +20,7 @@
                     @for (item of resolutions.controls; let i = $index; track i) {
                         <li class="res-item-show">
                             <span>{{ item.value.content }}</span>
-                            <span>مهلت: {{ formatDate(item.value.deadline) }}</span>
+                            <span>مهلت: {{ item.value.deadline | jalaliDate }}</span>
                             <span>مسئول: {{ getUserName(item.value.userId) }}</span>
 
                             <button class="remove-btn" type="button" (click)="removeResolution(i)">حذف</button>
