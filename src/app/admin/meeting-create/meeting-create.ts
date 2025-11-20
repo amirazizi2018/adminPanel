@@ -5,6 +5,7 @@ import { UserService, User } from '../../core/services/user';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CreateMeetingModel } from '../../core/models/create-meeting-model'
+import moment from "moment-jalaali";
 
 
 @Component({
@@ -25,6 +26,7 @@ export class MeetingCreate {
     form: FormGroup = this.fb.group({
         title: [ '', Validators.required ],
         description: [ '', Validators.required ],
+        meetingDate: ['', Validators.required],
         resolutions: this.fb.array([])
     });
 
@@ -32,7 +34,6 @@ export class MeetingCreate {
         this.userService.getUsers().subscribe(users => this.users.set(users));
     }
 
-    // Getter
     get resolutions(): FormArray {
         return this.form.get('resolutions') as FormArray;
     }
@@ -54,10 +55,48 @@ export class MeetingCreate {
     submit() {
         if (this.form.invalid) return;
 
-        const payload: CreateMeetingModel = this.form.value;
+        const { meetingDate, ...rest } = this.form.value;
+
+        const payload: CreateMeetingModel = {
+            ...rest,
+            meetingDate,
+            resolutions: rest.resolutions.map((r: any) => ({
+                ...r,
+                deadline: r.deadline ? `${r.deadline}T00:00` : null,
+            }))
+        };
+
         this.meetingService.createMeeting(payload).subscribe({
-            next: () => this.router.navigate([ '/admin/dashboard' ]),
+            next: () => {
+                alert('جلسه با موفقیت ثبت شد');
+                this.form.reset();
+                this.router.navigate(['/admin/dashboard']);
+            },
             error: () => alert('خطا در ثبت اطلاعات')
         });
     }
+
+    resolutionForm = this.fb.group({
+        content: ['', Validators.required],
+        deadline: ['', Validators.required],
+        userId: ['', Validators.required]
+    });
+
+    submitResolution() {
+        if (this.resolutionForm.invalid) return;
+
+        this.resolutions.push(this.fb.group(this.resolutionForm.value));
+        this.resolutionForm.reset();  // پاک‌سازی فرم
+    }
+
+
+    getUserName(userId: any): string {
+        const u = this.users().find(x => x.id === userId);
+        return u ? u.fullName  : '';
+    }
+
+    formatDate(date: string) {
+        return moment(date).format('jYYYY/jMM/jDD');
+    }
+
 }

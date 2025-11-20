@@ -5,8 +5,7 @@ import { map } from 'rxjs'
 
 export interface User {
     id: string;
-    firstName: string;
-    lastName: string;
+    fullName: string;
 }
 
 @Injectable({ providedIn: 'root' })

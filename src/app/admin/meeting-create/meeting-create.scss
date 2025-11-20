@@ -60,3 +60,37 @@ h2 {
     font-weight: bold;
     border: none;
 }
+.res-list {
+    padding: 0;
+    list-style: none;
+    margin-bottom: 15px;
+}
+
+.res-add-form {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: 1fr 170px 160px auto;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.res-item-show {
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.res-add-form {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: 1fr 170px 160px auto;
+    align-items: center;
+    padding-top: 10px;
+}

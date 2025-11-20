@@ -6,31 +6,44 @@
         <label>عنوان جلسه</label>
         <input formControlName="title" type="text" placeholder="مثلاً جلسه هیئت مدیره">
 
-        <label>توضیحات</label>
+        <label>تاریخ و ساعت شروع جلسه</label>
+        <input formControlName="meetingDate" type="datetime-local">
+
+        <label>صورتجلسه</label>
         <textarea formControlName="description" rows="3"></textarea>
 
         <div class="res-box">
-            <div class="res-header">
-                <h3>مصوبات</h3>
-                <button type="button" class="add-btn" (click)="addResolution()">+ افزودن مصوبه</button>
-            </div>
+            @if (resolutions.length > 0) {
+                <ul class="res-list">
+                    @for (item of resolutions.controls; let i = $index; track i) {
+                        <li class="res-item-show">
+                            <span>{{ item.value.content }}</span>
+                            <span>مهلت: {{ formatDate(item.value.deadline) }}</span>
+                            <span>مسئول: {{ getUserName(item.value.userId) }}</span>
 
-            @for (res of resolutions.controls; let i = $index; track i) {
-                <div class="res-item" [formGroup]="res as FormGroup">
-                    <input formControlName="content" placeholder="متن مصوبه">
 
-                    <input formControlName="deadline" type="datetime-local">
-
-                    <select formControlName="userId">
-                        <option value="">انتخاب مسئول</option>
-                        @for (u of users(); track u.id) {
-                            <option [value]="u.id">{{ u.firstName }} {{ u.lastName }}</option>
-                        }
-                    </select>
-
-                    <button class="remove-btn" type="button" (click)="removeResolution(i)">حذف</button>
-                </div>
+                            <button class="remove-btn" type="button" (click)="removeResolution(i)">حذف</button>
+                        </li>
+                    }
+                </ul>
             }
+
+            <hr>
+
+            <div [formGroup]="resolutionForm" class="res-add-form">
+                <input formControlName="content" placeholder="متن مصوبه">
+
+                <input formControlName="deadline" type="date">
+
+                <select formControlName="userId">
+                    <option value="">انتخاب مسئول</option>
+                    @for (u of users(); track u.id) {
+                        <option [value]="u.id">{{ u.fullName }}</option>
+                    }
+                </select>
+
+                <button class="add-btn" type="button" (click)="submitResolution()">ثبت مصوبه</button>
+            </div>
         </div>
 
         <button class="primary-submit" type="submit" [disabled]="form.invalid">
