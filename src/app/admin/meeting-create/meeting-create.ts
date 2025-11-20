@@ -7,11 +7,10 @@ import { CommonModule } from '@angular/common';
 import { CreateMeetingModel } from '../../core/models/create-meeting-model'
 import moment from "moment-jalaali";
 
-
 @Component({
     selector: 'app-meeting-create',
     standalone: true,
-    imports: [ ReactiveFormsModule, CommonModule ],
+    imports: [ReactiveFormsModule, CommonModule],
     templateUrl: './meeting-create.html',
     styleUrl: './meeting-create.scss'
 })
@@ -26,9 +25,9 @@ export class MeetingCreate {
     form: FormGroup = this.fb.group({
         title: [ '', Validators.required ],
         description: [ '', Validators.required ],
-        meetingDate: ['', Validators.required],
+        meetingDate: [ '', Validators.required ],
         resolutions: this.fb.array([])
-    });
+    }, { validators: this.validateDeadlines.bind(this) });
 
     constructor() {
         this.userService.getUsers().subscribe(users => this.users.set(users));
@@ -99,4 +98,19 @@ export class MeetingCreate {
         return moment(date).format('jYYYY/jMM/jDD');
     }
 
+    validateDeadlines(control: FormGroup) {
+        const meetingDate = control.get('meetingDate')?.value;
+
+        if (!meetingDate) return null;
+
+        const resolutions = control.get('resolutions')?.value;
+        if (!resolutions || !resolutions.length) return null;
+
+        for (const r of resolutions) {
+            if (r.deadline && r.deadline < meetingDate.split('T')[0]) {
+                return { deadlineBeforeMeeting: true };
+            }
+        }
+        return null;
+    }
 }

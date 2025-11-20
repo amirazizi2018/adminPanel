@@ -66,13 +66,7 @@ h2 {
     margin-bottom: 15px;
 }
 
-.res-add-form {
-    display: grid;
-    gap: 8px;
-    grid-template-columns: 1fr 170px 160px auto;
-    align-items: center;
-    padding-top: 10px;
-}
+
 
 .res-item-show {
     padding: 10px;
@@ -93,4 +87,14 @@ h2 {
     grid-template-columns: 1fr 170px 160px auto;
     align-items: center;
     padding-top: 10px;
+}
+
+.error-box {
+    margin-top: 10px;
+    padding: 10px;
+    background: #ffe0e0;
+    border: 1px solid #ff7777;
+    border-radius: 6px;
+    color: #b30000;
+    font-size: 14px;
 }
