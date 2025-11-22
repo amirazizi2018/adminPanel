@@ -2,6 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { LoginResponse, UserInfo } from '../models/user-info.moel'
+import { environment } from '../../../environments/environment'
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +12,7 @@ export class AuthService {
 
     private http = inject(HttpClient);
     private router = inject(Router);
+    private baseUrl = environment.apiUrl;
 
     constructor() {
         this.restoreUserFromStorage();
@@ -19,7 +21,7 @@ export class AuthService {
 
     login(credentials: { email: string; password: string }) {
         return this.http.post<LoginResponse>(
-            'http://localhost:5258/api/auth/login',
+            `${this.baseUrl}/auth/login`,
             {
                 ...credentials,
                 role: "Admin"
